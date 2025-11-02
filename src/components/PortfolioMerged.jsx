@@ -7,31 +7,26 @@ import { motion } from 'framer-motion'
 export default function PortfolioMerged(){
   const [selected, setSelected] = useState(null)
 
-  
   const [copied, setCopied] = useState(false)
   const copyTimerRef = useRef(null)
   const EMAIL = 'gustavobrandassi@icloud.com'
 
   useEffect(() => {
     return () => {
-    
       if (copyTimerRef.current) clearTimeout(copyTimerRef.current)
     }
   }, [])
 
   const handleCopyEmail = async () => {
-   
     if (copyTimerRef.current) {
       clearTimeout(copyTimerRef.current)
       copyTimerRef.current = null
     }
 
-   
     try {
       if (navigator.clipboard && navigator.clipboard.writeText) {
         await navigator.clipboard.writeText(EMAIL)
       } else {
-        
         const ta = document.createElement('textarea')
         ta.value = EMAIL
         ta.setAttribute('readonly', '')
@@ -44,14 +39,12 @@ export default function PortfolioMerged(){
       }
 
       setCopied(true)
-      
       copyTimerRef.current = setTimeout(() => {
         setCopied(false)
         copyTimerRef.current = null
       }, 4000)
     } catch (err) {
       console.error('Erro ao copiar email:', err)
-      
       setCopied(true)
       copyTimerRef.current = setTimeout(() => {
         setCopied(false)
@@ -59,6 +52,53 @@ export default function PortfolioMerged(){
       }, 4000)
     }
   }
+
+  // Inline SVG components for icons (GraduationCap and Backpack)
+  const GraduationCapSVG = ({ className = 'w-8 h-8 text-indigo-300', ...props }) => (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="30"
+      height="30"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+      aria-hidden="true"
+      focusable="false"
+      {...props}
+    >
+      <path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z" />
+      <path d="M22 10v6" />
+      <path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5" />
+    </svg>
+  )
+
+  const BackpackSVG = ({ className = 'w-8 h-8 text-indigo-300', ...props }) => (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="30"
+      height="30"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+      aria-hidden="true"
+      focusable="false"
+      {...props}
+    >
+      <path d="M4 10a4 4 0 0 1 4-4h8a4 4 0 0 1 4 4v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z" />
+      <path d="M8 10h8" />
+      <path d="M8 18h8" />
+      <path d="M8 22v-6a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v6" />
+      <path d="M9 6V4a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2" />
+    </svg>
+  )
 
   return (
     <div className="min-h-screen text-gray-100" style={{background:'linear-gradient(180deg,#0b0f13,#071018)'}}>
@@ -75,7 +115,7 @@ export default function PortfolioMerged(){
         </nav>
       </header>
 
-      {/* here: items-start added to prevent stretching */}
+      {/* items-start para evitar stretch */}
       <main className="max-w-6xl mx-auto p-6 grid md:grid-cols-3 gap-8 items-start">
         <section className="md:col-span-2 card p-6">
           <div className="flex gap-6 items-center">
@@ -88,7 +128,6 @@ export default function PortfolioMerged(){
               <p className="text-gray-300 mt-2 max-w-xl">Construo projetos que unem hardware e software para resolver problemas reais. Atualmente desenvolvendo um dessalinizador solar como projeto final do técnico. Gosto de prototipar rápido, testar e iterar.</p>
 
               <div className="mt-4 flex gap-3">
-                {/* Botão agora copia o e-mail e mostra toast */}
                 <button
                   onClick={handleCopyEmail}
                   className="text-xs px-3 py-1 rounded-full border border-gray-800"
@@ -104,23 +143,36 @@ export default function PortfolioMerged(){
           </div>
 
           <div className="mt-6 grid sm:grid-cols-2 gap-4">
-            <div className="p-4 rounded-lg glass">
-              <p className="text-xs text-gray-400">Formação</p>
-              <p className="font-semibold mt-1">Ensino Médio Técnico em Informática — UNASP SP (2025)</p>
-            </div>
-            <div className="p-4 rounded-lg glass">
-              <p className="text-xs text-gray-400">Cursos</p>
-              <p className="font-semibold mt-1">Implantação e análise de dados dp-900 | SENAI - 2023|</p>
-            </div>
-
-            <div className="p-4 rounded-lg glass">
-              <p className="text-xs text-gray-400">Cursos</p>
-              <p className="font-semibold mt-1">Implantação de serviços em nuvem-aws cloud | SENAI - 2023|</p>
+            <div className="p-4 rounded-lg glass flex items-start gap-3">
+              <GraduationCapSVG className="w-5 h-5 text-indigo-300 mt-0.5" />
+              <div>
+                <p className="text-xs text-gray-400">Formação</p>
+                <p className="font-semibold mt-1">Ensino Médio Técnico em Informática — UNASP SP (2025)</p>
+              </div>
             </div>
 
-            <div className="p-4 rounded-lg glass">
-              <p className="text-xs text-gray-400">Cursos</p>
-              <p className="font-semibold mt-1">fundamentos de segurança em nuvem sc-900 | SENAI - 2023|</p>
+            <div className="p-4 rounded-lg glass flex items-start gap-3">
+              <BackpackSVG className="w-5 h-5 text-indigo-300 mt-0.5" />
+              <div>
+                <p className="text-xs text-gray-400">Cursos</p>
+                <p className="font-semibold mt-1">Implantação e análise de dados dp-900 | SENAI - 2023</p>
+              </div>
+            </div>
+
+            <div className="p-4 rounded-lg glass flex items-start gap-3">
+              <BackpackSVG className="w-5 h-5 text-indigo-300 mt-0.5" />
+              <div>
+                <p className="text-xs text-gray-400">Cursos</p>
+                <p className="font-semibold mt-1">Implantação de serviços em nuvem - AWS Cloud | SENAI - 2023</p>
+              </div>
+            </div>
+
+            <div className="p-4 rounded-lg glass flex items-start gap-3">
+              <BackpackSVG className="w-5 h-5 text-indigo-300 mt-0.5" />
+              <div>
+                <p className="text-xs text-gray-400">Cursos</p>
+                <p className="font-semibold mt-1">Fundamentos de segurança em nuvem SC-900 | SENAI - 2023</p>
+              </div>
             </div>
           </div>
         </section>
