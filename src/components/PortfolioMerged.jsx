@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import ProjectCard from './ProjectCard'
 import ProjectModal from './ProjectModal'
 import { projects } from '../data/projects'
@@ -6,6 +6,59 @@ import { motion } from 'framer-motion'
 
 export default function PortfolioMerged(){
   const [selected, setSelected] = useState(null)
+
+  
+  const [copied, setCopied] = useState(false)
+  const copyTimerRef = useRef(null)
+  const EMAIL = 'gustavobrandassi@icloud.com'
+
+  useEffect(() => {
+    return () => {
+    
+      if (copyTimerRef.current) clearTimeout(copyTimerRef.current)
+    }
+  }, [])
+
+  const handleCopyEmail = async () => {
+   
+    if (copyTimerRef.current) {
+      clearTimeout(copyTimerRef.current)
+      copyTimerRef.current = null
+    }
+
+   
+    try {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        await navigator.clipboard.writeText(EMAIL)
+      } else {
+        
+        const ta = document.createElement('textarea')
+        ta.value = EMAIL
+        ta.setAttribute('readonly', '')
+        ta.style.position = 'absolute'
+        ta.style.left = '-9999px'
+        document.body.appendChild(ta)
+        ta.select()
+        document.execCommand('copy')
+        document.body.removeChild(ta)
+      }
+
+      setCopied(true)
+      
+      copyTimerRef.current = setTimeout(() => {
+        setCopied(false)
+        copyTimerRef.current = null
+      }, 4000)
+    } catch (err) {
+      console.error('Erro ao copiar email:', err)
+      
+      setCopied(true)
+      copyTimerRef.current = setTimeout(() => {
+        setCopied(false)
+        copyTimerRef.current = null
+      }, 4000)
+    }
+  }
 
   return (
     <div className="min-h-screen text-gray-100" style={{background:'linear-gradient(180deg,#0b0f13,#071018)'}}>
@@ -22,7 +75,8 @@ export default function PortfolioMerged(){
         </nav>
       </header>
 
-      <main className="max-w-6xl mx-auto p-6 grid md:grid-cols-3 gap-8">
+      {/* here: items-start added to prevent stretching */}
+      <main className="max-w-6xl mx-auto p-6 grid md:grid-cols-3 gap-8 items-start">
         <section className="md:col-span-2 card p-6">
           <div className="flex gap-6 items-center">
             <div className="w-28 h-28 rounded-xl overflow-hidden border border-gray-800">
@@ -34,7 +88,15 @@ export default function PortfolioMerged(){
               <p className="text-gray-300 mt-2 max-w-xl">Construo projetos que unem hardware e software para resolver problemas reais. Atualmente desenvolvendo um dessalinizador solar como projeto final do técnico. Gosto de prototipar rápido, testar e iterar.</p>
 
               <div className="mt-4 flex gap-3">
-                <a className="text-xs px-3 py-1 rounded-full border border-gray-800" href="mailto:gustavobrandassi@icloud.com">Email</a>
+                {/* Botão agora copia o e-mail e mostra toast */}
+                <button
+                  onClick={handleCopyEmail}
+                  className="text-xs px-3 py-1 rounded-full border border-gray-800"
+                  aria-label="Copiar e-mail"
+                >
+                  Email
+                </button>
+
                 <a className="text-xs px-3 py-1 rounded-full border border-gray-800" href="https://www.linkedin.com/in/gustavo-brandassi">LinkedIn</a>
                 <a className="text-xs px-3 py-1 rounded-full border border-gray-800" href="https://github.com/Brandassi">GitHub</a>
               </div>
@@ -48,7 +110,17 @@ export default function PortfolioMerged(){
             </div>
             <div className="p-4 rounded-lg glass">
               <p className="text-xs text-gray-400">Cursos</p>
-              <p className="font-semibold mt-1">Cloud, Dados, Segurança — SENAI (2023)</p>
+              <p className="font-semibold mt-1">Implantação e análise de dados dp-900 | SENAI - 2023|</p>
+            </div>
+
+            <div className="p-4 rounded-lg glass">
+              <p className="text-xs text-gray-400">Cursos</p>
+              <p className="font-semibold mt-1">Implantação de serviços em nuvem-aws cloud | SENAI - 2023|</p>
+            </div>
+
+            <div className="p-4 rounded-lg glass">
+              <p className="text-xs text-gray-400">Cursos</p>
+              <p className="font-semibold mt-1">fundamentos de segurança em nuvem sc-900 | SENAI - 2023|</p>
             </div>
           </div>
         </section>
@@ -65,9 +137,6 @@ export default function PortfolioMerged(){
 
           <h3 className="mt-6 text-sm text-gray-400 tracking-widest">IDIOMAS</h3>
           <p className="mt-2 text-sm text-gray-300">Português (nativo) • Inglês (intermediário)</p>
-
-          <h3 className="mt-6 text-sm text-gray-400 tracking-widest">LOCALIDADE</h3>
-          <p className="mt-2 text-sm text-gray-300">Embu das Artes — SP</p>
         </aside>
 
         <section className="md:col-span-3 mt-2">
@@ -86,6 +155,21 @@ export default function PortfolioMerged(){
       {selected && (
         <ProjectModal project={selected} onClose={() => setSelected(null)} />
       )}
+
+      {/* Toast de confirmação — acessível */}
+      <div aria-live="polite" className="fixed inset-0 pointer-events-none">
+        <div className="absolute bottom-6 right-6">
+          <motion.div
+            initial={{ opacity: 0, y: 8 }}
+            animate={copied ? { opacity: 1, y: 0 } : { opacity: 0, y: 8 }}
+            transition={{ duration: 0.18 }}
+            className="pointer-events-auto bg-indigo-600 text-white px-4 py-2 rounded-md shadow-lg"
+            role="status"
+          >
+            Email copiado!
+          </motion.div>
+        </div>
+      </div>
     </div>
   )
 }
