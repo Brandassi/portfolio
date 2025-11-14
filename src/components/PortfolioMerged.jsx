@@ -55,21 +55,7 @@ export default function PortfolioMerged(){
 
   // Inline SVG components for icons (GraduationCap and Backpack)
   const GraduationCapSVG = ({ className = 'w-8 h-8 text-indigo-300', ...props }) => (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="30"
-      height="30"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      className={className}
-      aria-hidden="true"
-      focusable="false"
-      {...props}
-    >
+    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className} aria-hidden="true" focusable="false" {...props}>
       <path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z" />
       <path d="M22 10v6" />
       <path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5" />
@@ -77,21 +63,7 @@ export default function PortfolioMerged(){
   )
 
   const BackpackSVG = ({ className = 'w-8 h-8 text-indigo-300', ...props }) => (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="30"
-      height="30"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      className={className}
-      aria-hidden="true"
-      focusable="false"
-      {...props}
-    >
+    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className} aria-hidden="true" focusable="false" {...props}>
       <path d="M4 10a4 4 0 0 1 4-4h8a4 4 0 0 1 4 4v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z" />
       <path d="M8 10h8" />
       <path d="M8 18h8" />
@@ -99,6 +71,22 @@ export default function PortfolioMerged(){
       <path d="M9 6V4a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2" />
     </svg>
   )
+
+  // === novo projeto do APK (adicionar ao portfólio) ===
+  const apkProject = {
+    id: 'controle-dessalinizador-android',
+    title: 'Controle Dessalinizador (Android)',
+    short: 'App Android que controla o dessalinizador via HC-05. Envia "a" (Ligar) e "b" (Desligar).',
+    description: 'Aplicativo Android nativo (Java) que lista dispositivos pareados, conecta ao HC-05 e envia comandos \'a\' e \'b\' para acionar o relé do dessalinizador. Inclui feedback sonoro e vibração para interação.',
+    image: '/images/android-app.png', // troque se tiver outra imagem
+    github: 'https://github.com/Brandassi/controle-dessalinizador-android',
+    apk: '/downloads/app-debug.apk',
+    tech: ['Android', 'Java', 'Bluetooth Classic', 'HC-05']
+  }
+  // =====================================================
+
+  // combine projetos já existentes com o novo (o novo ficará no final)
+  const allProjects = [...projects, apkProject]
 
   return (
     <div className="min-h-screen text-gray-100" style={{background:'linear-gradient(180deg,#0b0f13,#071018)'}}>
@@ -115,9 +103,10 @@ export default function PortfolioMerged(){
         </nav>
       </header>
 
-      {/* items-start para evitar stretch */}
       <main className="max-w-6xl mx-auto p-6 grid md:grid-cols-3 gap-8 items-start">
+        {/* ... seu conteúdo (mantive igual) ... */}
         <section className="md:col-span-2 card p-6">
+          {/* perfil e cards resumidos (mantive tudo igual ao seu código) */}
           <div className="flex gap-6 items-center">
             <div className="w-28 h-28 rounded-xl overflow-hidden border border-gray-800">
               <img src="/images/avatar-dark.svg" alt="Gustavo" className="w-full h-full object-cover" />
@@ -128,11 +117,7 @@ export default function PortfolioMerged(){
               <p className="text-gray-300 mt-2 max-w-xl">Construo projetos que unem hardware e software para resolver problemas reais. Atualmente desenvolvendo um dessalinizador solar como projeto final do técnico. Gosto de prototipar rápido, testar e iterar.</p>
 
               <div className="mt-4 flex gap-3">
-                <button
-                  onClick={handleCopyEmail}
-                  className="text-xs px-3 py-1 rounded-full border border-gray-800"
-                  aria-label="Copiar e-mail"
-                >
+                <button onClick={handleCopyEmail} className="text-xs px-3 py-1 rounded-full border border-gray-800" aria-label="Copiar e-mail">
                   Email
                 </button>
 
@@ -142,6 +127,7 @@ export default function PortfolioMerged(){
             </div>
           </div>
 
+          {/* ... as seções de formação etc (mantive igual) ... */}
           <div className="mt-6 grid sm:grid-cols-2 gap-4">
             <div className="p-4 rounded-lg glass flex items-start gap-3">
               <GraduationCapSVG className="w-5 h-5 text-indigo-300 mt-0.5" />
@@ -195,7 +181,7 @@ export default function PortfolioMerged(){
           <h3 className="text-lg font-semibold mb-4">Projetos em destaque</h3>
 
           <div className="grid sm:grid-cols-2 gap-6">
-            {projects.map((p, idx) => (
+            {allProjects.map((p, idx) => (
               <ProjectCard key={p.id} project={p} index={idx} onOpen={() => setSelected(p)} />
             ))}
           </div>
