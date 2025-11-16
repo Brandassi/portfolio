@@ -1,3 +1,4 @@
+// src/components/ProjectCard.jsx
 import React from 'react'
 import { motion } from 'framer-motion'
 
@@ -35,7 +36,7 @@ export default function ProjectCard({ project, index, onOpen }) {
           </div>
 
           <div className="mt-4 flex items-center justify-end">
-            {/* Apenas o botão de abrir modal */}
+            {/* Apenas o botão de abrir modal — Ações (repo/demo/apk) ficam somente no modal */}
             <button
               onClick={onOpen}
               className="text-xs px-3 py-1 rounded-full border border-gray-800 hover:bg-gray-800/40"

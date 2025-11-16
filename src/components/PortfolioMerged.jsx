@@ -1,10 +1,11 @@
+// src/components/PortfolioMerged.jsx
 import React, { useState, useRef, useEffect } from 'react'
 import ProjectCard from './ProjectCard'
 import ProjectModal from './ProjectModal'
-import { projects } from '../data/projects'
+import projects from '../data/projects' // import default
 import { motion } from 'framer-motion'
 
-export default function PortfolioMerged(){
+export default function PortfolioMerged() {
   const [selected, setSelected] = useState(null)
 
   const [copied, setCopied] = useState(false)
@@ -72,24 +73,11 @@ export default function PortfolioMerged(){
     </svg>
   )
 
-  // === novo projeto do APK (adicionar ao portfólio) ===
-  const apkProject = {
-    id: 'controle-dessalinizador-android',
-    title: 'Controle Dessalinizador (Android)',
-    short: 'App Android que controla o dessalinizador via HC-05. Envia "a" (Ligar) e "b" (Desligar).',
-    description: 'Aplicativo Android nativo (Java) que lista dispositivos pareados, conecta ao HC-05 e envia comandos \'a\' e \'b\' para acionar o relé do dessalinizador. Inclui feedback sonoro e vibração para interação.',
-    image: '/images/android-app.png', // troque se tiver outra imagem
-    github: 'https://github.com/Brandassi/controle-dessalinizador-android',
-    apk: '/downloads/app-debug.apk',
-    tech: ['Android', 'Java', 'Bluetooth Classic', 'HC-05']
-  }
-  // =====================================================
-
-  // combine projetos já existentes com o novo (o novo ficará no final)
-  const allProjects = [...projects, apkProject]
+  // Use projects as provided in src/data/projects.js (now central place for apk if present)
+  const allProjects = projects
 
   return (
-    <div className="min-h-screen text-gray-100" style={{background:'linear-gradient(180deg,#0b0f13,#071018)'}}>
+    <div className="min-h-screen text-gray-100" style={{ background: 'linear-gradient(180deg,#0b0f13,#071018)' }}>
       <header className="max-w-6xl mx-auto p-6 flex items-center justify-between">
         <div>
           <h1 className="text-4xl font-extrabold tracking-wider">
@@ -99,14 +87,12 @@ export default function PortfolioMerged(){
         </div>
         <nav className="flex items-center gap-3">
           <a className="px-4 py-2 rounded-md border border-gray-800 bg-gray-900/40" href="/Gustavo_Brandassi_CV.pdf">CV</a>
-          <a className="px-4 py-2 rounded-md text-white" href="https://github.com/Brandassi" style={{background:'linear-gradient(90deg,#6366f1,#fb7185)'}}>GitHub</a>
+          <a className="px-4 py-2 rounded-md text-white" href="https://github.com/Brandassi" style={{ background: 'linear-gradient(90deg,#6366f1,#fb7185)' }}>GitHub</a>
         </nav>
       </header>
 
       <main className="max-w-6xl mx-auto p-6 grid md:grid-cols-3 gap-8 items-start">
-        {/* ... seu conteúdo (mantive igual) ... */}
         <section className="md:col-span-2 card p-6">
-          {/* perfil e cards resumidos (mantive tudo igual ao seu código) */}
           <div className="flex gap-6 items-center">
             <div className="w-28 h-28 rounded-xl overflow-hidden border border-gray-800">
               <img src="/images/avatar-dark.svg" alt="Gustavo" className="w-full h-full object-cover" />
@@ -127,7 +113,6 @@ export default function PortfolioMerged(){
             </div>
           </div>
 
-          {/* ... as seções de formação etc (mantive igual) ... */}
           <div className="mt-6 grid sm:grid-cols-2 gap-4">
             <div className="p-4 rounded-lg glass flex items-start gap-3">
               <GraduationCapSVG className="w-5 h-5 text-indigo-300 mt-0.5" />

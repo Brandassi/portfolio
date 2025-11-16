@@ -1,3 +1,4 @@
+// src/components/ProjectModal.jsx
 import React, { useState } from 'react'
 import { motion } from 'framer-motion'
 
@@ -17,20 +18,12 @@ export default function ProjectModal({ project, onClose }) {
     (project.images && project.images[2]) ? project.images[2] : placeholders[2],
   ]
 
-  // URL de download / QR: aceita caminhos relativos ou URLs absolutas
-  let apkUrl = null
-  if (project && project.apk) {
-    try {
-      // se já for URL absoluta
-      const u = new URL(project.apk, window.location.origin)
-      apkUrl = u.href
-    } catch (e) {
-      // fallback: concatena com origin
-      apkUrl = window.location.origin + project.apk
-    }
-  }
-
   const tech = project && project.tech ? project.tech : []
+
+  // Helpers de decisão (regras que você pediu)
+  const isTCC = project && project.id === 'tcc'
+  const isSiteResponsivo = project && project.id === 'site-responsivo'
+  const hasApk = project && project.apk
 
   return (
     <motion.div
@@ -111,45 +104,83 @@ export default function ProjectModal({ project, onClose }) {
             </div>
 
             <div className="mt-6 flex flex-col gap-2">
-              {project.github && (
-                <a
-                  href={project.github}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="text-sm px-3 py-2 rounded-md bg-indigo-600/90 text-white text-center"
-                >
-                  Ver repositório
-                </a>
-              )}
-
-              {project.demo && (
-                <a
-                  href={project.demo}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="text-sm px-3 py-2 rounded-md border border-gray-800 text-center text-gray-200"
-                >
-                  Abrir demo
-                </a>
-              )}
-
-              {apkUrl && (
-                <a
-                  href={apkUrl}
-                  download
-                  className="text-sm px-3 py-2 rounded-md bg-green-600/90 text-white text-center"
-                  aria-label="Baixar APK"
-                >
-                  📥 Baixar APK
-                </a>
+              {/* Regras solicitadas:
+                  - TCC: NÃO mostrar nada
+                  - Site responsivo: mostrar repo + demo (se existirem)
+                  - APK: mostrar apenas o botão de download do APK (e QR)
+                  - Outros: mostrar repo/demo se existirem
+              */}
+              {isTCC ? null : (
+                <>
+                  {isSiteResponsivo ? (
+                    <>
+                      {project.github && (
+                        <a
+                          href={project.github}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="text-sm px-3 py-2 rounded-md bg-indigo-600/90 text-white text-center"
+                        >
+                          Ver repositório
+                        </a>
+                      )}
+                      {project.demo && (
+                        <a
+                          href={project.demo}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="text-sm px-3 py-2 rounded-md border border-gray-800 text-center text-gray-200"
+                        >
+                          Abrir demo
+                        </a>
+                      )}
+                    </>
+                  ) : hasApk ? (
+                    // se tiver apk, mostramos apenas o botão de download do apk (e QR abaixo)
+                    <>
+                      <a
+                        href={project.apk}
+                        download
+                        className="text-sm px-3 py-2 rounded-md bg-green-600/90 text-white text-center"
+                        aria-label="Baixar APK"
+                      >
+                        📥 Baixar APK
+                      </a>
+                    </>
+                  ) : (
+                    // fallback: mostrar repo/demo quando existirem
+                    <>
+                      {project.github && (
+                        <a
+                          href={project.github}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="text-sm px-3 py-2 rounded-md bg-indigo-600/90 text-white text-center"
+                        >
+                          Ver repositório
+                        </a>
+                      )}
+                      {project.demo && (
+                        <a
+                          href={project.demo}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="text-sm px-3 py-2 rounded-md border border-gray-800 text-center text-gray-200"
+                        >
+                          Abrir demo
+                        </a>
+                      )}
+                    </>
+                  )}
+                </>
               )}
             </div>
 
-            {/* QR code */}
-            {apkUrl && (
+            {/* QR code para APK (aparece somente se apk existir) */}
+            {hasApk && (
               <div className="mt-4">
                 <img
-                  src={`https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(apkUrl)}`}
+                  src={`https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(project.apk)}`}
                   alt="QR APK"
                   className="w-40 h-40 object-contain"
                 />
