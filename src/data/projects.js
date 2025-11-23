@@ -33,13 +33,11 @@ const projects = [
       '/images/site-3.png'
     ],
     tech: ['React', 'Tailwind', 'Framer Motion'],
-    github: 'https://github.com/SEU_USUARIO/site-responsivo',
-    demo: 'https://seu-site-exemplo.com'
+    github: 'https://github.com/TccDessalinizador/AquaNova.git',
+    demo: 'https://aquanovaa.vercel.app'
   },
 
-  // Exemplo de projeto com APK — adicione apenas se realmente quiser disponibilizar o arquivo.
-  // Para ativar, coloque o arquivo em /public/downloads/app-debug.apk (ou ajuste o caminho)
-  // e mantenha a propriedade `apk` abaixo. Se não quiser, apague este objeto ou remova `apk`.
+ 
   {
     id: 'controle-dessalinizador-android',
     title: 'Controle Dessalinizador (Android)',
