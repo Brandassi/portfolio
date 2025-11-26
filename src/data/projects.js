@@ -10,7 +10,7 @@ const projects = [
     short: 'Dessalinizador movido a energia solar, controlado por Arduino.',
     description: 'Projeto de TCC: dessalinizador movido a energia solar, controle via Arduino, sensores de nível e temperatura, interface Bluetooth.',
     longDescription:
-      'Dessalinizador movido a energia solar. Aquecimento por painel solar, condensação do vapor e controle via Arduino. Possui sensores de condutividade, nível e pressão para automação do processo.',
+      'Dessalinizador movido a energia solar. ,  e controle via Arduino. Possui sensores de condutividade, nível e pressão para automação do processo.',
     images: [
       '/images/tcc-1.png',
       '/images/tcc-2.png',
