@@ -34,7 +34,7 @@ const projects = [
     ],
     tech: ['React', 'Tailwind', 'Framer Motion'],
     github: 'https://github.com/TccDessalinizador/AquaNova.git',
-    demo: 'https://aquanovaa.vercel.app'
+    demo: 'https://aquanova-tcc.vercel.app'
   },
 
  
